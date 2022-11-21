@@ -6,7 +6,7 @@
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
-  "workspaceMount": "source=${localWorkspaceFolder},target=/aoc-ts/${localWorkspaceFolderBasename}",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/aoc-ts/${localWorkspaceFolderBasename},type=bind",
   "workspaceFolder": "/aoc-ts/${localWorkspaceFolderBasename}",
   "extensions": [
     "dbaeumer.vscode-eslint"
