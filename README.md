@@ -45,30 +45,46 @@ _Click a badge to go to the specific day._
 
 ## Installation
 
-### Prerequisites
+All project dependencies are covered in the [Dockerfile](Dockerfile) definition in the repository root.
 
-Ensure that you have Node.js installed. There's a few ways to do this.
+### Local
 
-If you're using a package manager (e.g., Homebrew, apt, yum, etc.), see instructions to do so from the [official Node.js documentation](https://nodejs.org/en/download/package-manager/).
-
-If you're interested in using containers (with say, a Docker runtime), instantiate a container from the [Docker Hub node image](https://hub.docker.com/_/node), and mount your project root as a volume. For example, using the current [LTS version](https://nodejs.org/en/download/) of `18.12.1` (if you don't understand these options, look them up with `docker run --help`):
+This assumes Docker as a runtime (feel free to use other runtimes). First ensure that Docker is [installed](https://docs.docker.com/get-docker/). From the repository root, build an image and tag appropriately (e.g., `aoc-ts:local`):
 
 ```sh
-docker run --rm -it -v $(pwd):$(pwd) --workdir $(pwd) node:18.12.1 /bin/bash
+docker build --tag aoc-ts:local --file Dockerfile .
 ```
 
-Once you have Node.js installed, ensure that [pnpm](https://pnpm.io/) is installed. We use pnpm as an alternative Node.js package manager to npm and yarn. It's (unsurprisingly) managed by npm, installed globally (may require updating your npm version):
+Once [logged in on Advent of Code](https://adventofcode.com/2022/auth/login), locate your session key; this shows up as the value for the `cookie` key in your request headers that you can pull out from browser network tab. Write this value to a `.env` file in the repository root under `AOC_SESSION_KEY` variable:
 
 ```sh
-npm install -g pnpm
+AOC_SESSION_KEY=<insert session key here>
 ```
 
-### Project Dependencies
+From the repository root, instantiate a container with the current directory mounted and environment variables exported:
 
-Once pnpm is installed, have pnpm read your [package.json](package.json) manifest and install the project dependencies. In this case, I had to "hoist" dependencies into a flat `node_modules` structure, lest my `aocrunner` is not able to access the `esbuild` dependency. If you can figure out a way to get around this...please do and let me know (or update this document).
-
+```sh
+docker run --rm -it --volume $PWD:/aoc-ts/$(basename $PWD) --workdir /aoc-ts/$(basename $PWD) aoc-ts:local /bin/bash
 ```
-pnpm install --shamefully-hoist
+
+Execute the [`aocrunner` tool](https://github.com/caderek/aocrunner) for the day of the challenge; this will prompt you to install `esbuild` once for the duration of the container. In this case, for day 1:
+
+```sh
+pnpm start 1
+```
+
+### GitHub Codespaces
+
+Once [logged in on Advent of Code](https://adventofcode.com/2022/auth/login), locate your session key; this shows up as the value for the `cookie` key in your request headers that you can pull out from browser network tab. Manage this value as an [encrypted secret for your codespaces](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-encrypted-secrets-for-your-codespaces) and name it `AOC_SESSION_KEY`.
+
+Create a Codespace from your repository fork.
+
+### aocrunner
+
+After getting setup, whether it's locally or on GitHub Codespaces, execute the [`aocrunner` tool](https://github.com/caderek/aocrunner) for the day of the challenge. This will prompt you to install `esbuild` once for the duration of the container. In this case, for day 1:
+
+```sh
+pnpm start 1
 ```
 
 ## Running in dev mode
