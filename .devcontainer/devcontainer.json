@@ -1,7 +1,9 @@
 {
   "name": "aoc-ts",
   "build": {
-    "dockerfile": "../Dockerfile"
+    "dockerfile": "../Dockerfile",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/aoc-ts,type=bind,consistency=cached",
+    "workspaceFolder": "/aoc-ts"
   },
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
