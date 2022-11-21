@@ -79,17 +79,11 @@ Once [logged in on Advent of Code](https://adventofcode.com/2022/auth/login), lo
 
 Create a Codespace from your repository fork.
 
-### aocrunner
+### Develop with aocrunner
 
-After getting setup, whether it's locally or on GitHub Codespaces, execute the [`aocrunner` tool](https://github.com/caderek/aocrunner) for the day of the challenge. This will prompt you to install `esbuild` once for the duration of the container. In this case, for day 1:
+After getting setup, whether it's locally or on GitHub Codespaces, execute the [`aocrunner` tool](https://github.com/caderek/aocrunner) for the day of the challenge. This will prompt you to install `esbuild` once for the duration of the container.
 
 ```sh
-pnpm start 1
-```
-
-## Running in dev mode
-
-```
 pnpm start <day>
 ```
 
