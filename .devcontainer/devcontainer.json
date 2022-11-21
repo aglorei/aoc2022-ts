@@ -1,13 +1,13 @@
 {
   "name": "aoc-ts",
   "build": {
-    "dockerfile": "../Dockerfile",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/aoc-ts,type=bind,consistency=cached",
-    "workspaceFolder": "/aoc-ts"
+    "dockerfile": "../Dockerfile"
   },
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/aoc-ts,type=bind,consistency=cached",
+  "workspaceFolder": "/aoc-ts",
   "extensions": [
     "dbaeumer.vscode-eslint"
   ]
