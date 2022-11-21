@@ -5,7 +5,7 @@
 ![Language](https://badgen.net/badge/Language/TypeScript/blue)
 [![Template](https://badgen.net/badge/Template/aocrunner/blue)](https://github.com/caderek/aocrunner)
 
-# 🎄 Advent of Code 2022 🎄
+# 🎄 Advent of Code 2022 TypeScript 🎄
 
 ## Solutions
 
@@ -45,8 +45,30 @@ _Click a badge to go to the specific day._
 
 ## Installation
 
+### Prerequisites
+
+Ensure that you have Node.js installed. There's a few ways to do this.
+
+If you're using a package manager (e.g., Homebrew, apt, yum, etc.), see instructions to do so from the [official Node.js documentation](https://nodejs.org/en/download/package-manager/).
+
+If you're interested in using containers (with say, a Docker runtime), instantiate a container from the [Docker Hub node image](https://hub.docker.com/_/node), and mount your project root as a volume. For example, using the current [LTS version](https://nodejs.org/en/download/) of `18.12.1` (if you don't understand these options, look them up with `docker run --help`):
+
+```sh
+docker run --rm -it -v $(pwd):$(pwd) --workdir $(pwd) node:18.12.1 /bin/bash
 ```
-pnpm install
+
+Once you have Node.js installed, ensure that [pnpm](https://pnpm.io/) is installed. We use pnpm as an alternative Node.js package manager to npm and yarn. It's (unsurprisingly) managed by npm, installed globally (may require updating your npm version):
+
+```sh
+npm install -g pnpm
+```
+
+### Project Dependencies
+
+Once pnpm is installed, have pnpm read your [package.json](package.json) manifest and install the project dependencies. In this case, I had to "hoist" dependencies into a flat `node_modules` structure, lest my `aocrunner` is not able to access the `esbuild` dependency. If you can figure out a way to get around this...please do and let me know (or update this document).
+
+```
+pnpm install --shamefully-hoist
 ```
 
 ## Running in dev mode
