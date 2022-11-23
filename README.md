@@ -67,12 +67,6 @@ From the repository root, instantiate a container with the current directory mou
 docker run --rm -it --volume $PWD:/aoc-ts/$(basename $PWD) --workdir /aoc-ts/$(basename $PWD) aoc-ts:local /bin/bash
 ```
 
-Execute the [`aocrunner` tool](https://github.com/caderek/aocrunner) for the day of the challenge; this will prompt you to install `esbuild` once for the duration of the container. In this case, for day 1:
-
-```sh
-pnpm start 1
-```
-
 ### GitHub Codespaces
 
 Once [logged in on Advent of Code](https://adventofcode.com/2022/auth/login), locate your session key; this shows up as the value for the `cookie` key in your request headers that you can pull out from browser network tab. Manage this value as an [encrypted secret for your codespaces](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-encrypted-secrets-for-your-codespaces) and name it `AOC_SESSION_KEY`.
