@@ -64,7 +64,11 @@ AOC_SESSION_KEY=<insert session key here>
 From the repository root, instantiate a container with the current directory mounted and environment variables exported:
 
 ```sh
-docker run --rm -it --volume $PWD:/aoc-ts/$(basename $PWD) --workdir /aoc-ts/$(basename $PWD) aoc-ts:local /bin/bash
+docker run --rm -it \
+  --env-file .env \
+  --volume $PWD:/aoc-ts/$(basename $PWD) \
+  --workdir /aoc-ts/$(basename $PWD) \
+  aoc-ts:local /bin/bash
 ```
 
 ### GitHub Codespaces
