@@ -1,6 +1,7 @@
 import run from "aocrunner";
 
-const parseInput = (rawInput: string) => rawInput
+const parseInput = (rawInput: string) =>
+  rawInput
     .split("\n\n")
     .map((group) => group.split("\n"))
     .map((group) => group.reduce((acc, calorie) => acc + Number(calorie), 0));
@@ -13,7 +14,7 @@ const part2 = (rawInput: string) => {
   return parseInput(rawInput)
     .sort((first, second) => (first > second ? -1 : 1))
     .slice(0, 3)
-    .reduce((acc, calorie) => acc += calorie, 0);
+    .reduce((acc, calorie) => (acc += calorie), 0);
 };
 
 const testInput = `
@@ -31,7 +32,7 @@ const testInput = `
 9000
 
 10000
-`
+`;
 
 run({
   part1: {
