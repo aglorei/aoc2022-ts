@@ -24,9 +24,9 @@ const part1 = (rawInput: string) => {
 
 const part2 = (rawInput: string) => {
   return parseInput(rawInput).reduce((acc, assignments) => {
-    const subsetBoolean =
-      [...assignments[0]].some((seat) => assignments[1].has(seat)) ||
-      [...assignments[1]].some((seat) => assignments[0].has(seat));
+    const subsetBoolean = [...assignments[0]].some((seat) =>
+      assignments[1].has(seat),
+    );
     return (acc += Number(subsetBoolean));
   }, 0);
 };
