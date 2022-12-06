@@ -1,6 +1,22 @@
 import run from "aocrunner";
 
 const charactersProcessed = (rawInput: string, windowLength: number) => {
+  // Alternate solution with slower benchmarks, but executes with linear
+  // complexity, as opposed to polynomial complexity of the primary solution
+  //
+  // const characters = {};
+  // for (let i = 0; i < rawInput.length; i++) {
+  //   characters[rawInput[i]] ??= 0;
+  //   characters[rawInput[i]] += 1;
+
+  //   if (i >= windowLength) {
+  //     characters[rawInput[i - windowLength]] -= 1;
+  //     const uniqueCharacters = Object.fromEntries(
+  //       Object.entries(characters).filter(([_, frequency]) => frequency == 1),
+  //     );
+  //     if (Object.keys(uniqueCharacters).length == windowLength) return i + 1;
+  //   }
+  // }
   for (let i = windowLength - 1; i < rawInput.length; i++) {
     const sequence = rawInput.slice(i - windowLength + 1, i + 1).split("");
     if (new Set(sequence).size == sequence.length) return i + 1;
