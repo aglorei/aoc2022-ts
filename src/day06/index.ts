@@ -1,8 +1,8 @@
 import run from "aocrunner";
 
-const charactersProcessed = (rawInput: string, windowSize: number) => {
-  for (let i = windowSize - 1; i < rawInput.length; i++) {
-    const sequence = rawInput.slice(i - windowSize + 1, i + 1).split("");
+const charactersProcessed = (rawInput: string, windowLength: number) => {
+  for (let i = windowLength - 1; i < rawInput.length; i++) {
+    const sequence = rawInput.slice(i - windowLength + 1, i + 1).split("");
     if (new Set(sequence).size == sequence.length) return i + 1;
   }
 };
