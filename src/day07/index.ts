@@ -11,29 +11,31 @@ interface Directory {
 }
 
 const parseInput = (rawInput: string) => {
+  const lines = rawInput.split("\n");
   let directories: DirectoryDictionary = {
     "/": { size: 0, parent: null, path: "/" },
   };
   let pwd = directories["/"];
-  rawInput.split("\n").forEach((line, idx, lines) => {
-    if (line.startsWith("$ cd")) {
-      let directory = line.slice(5);
-      if (directory == "/") return;
+  for (let i = 1; i < lines.length; i++) {
+    if (lines[i].startsWith("$ cd")) {
+      let directory = lines[i].slice(5);
       pwd =
-        directory == ".." ? pwd.parent : directories[`${pwd.path}${directory}`];
-    } else if (line.startsWith("$ ls")) {
-      for (let i = idx + 1; i < lines.length; i++) {
-        if (lines[i].startsWith("$")) break;
-        if (lines[i].startsWith("dir")) {
-          let directory = lines[i].slice(4);
-          directories[`${pwd.path}${directory}`] ??= {
+        directory == ".."
+          ? pwd.parent
+          : directories[`${pwd.path}${directory}/`];
+    } else if (lines[i].startsWith("$ ls")) {
+      for (let j = i + 1; j < lines.length; j++) {
+        if (lines[j].startsWith("$")) break;
+        if (lines[j].startsWith("dir")) {
+          let directory = lines[j].slice(4);
+          directories[`${pwd.path}${directory}/`] ??= {
             size: 0,
             parent: pwd,
-            path: `${pwd.path}${directory}`,
+            path: `${pwd.path}${directory}/`,
           };
         } else {
           let parent = pwd.parent;
-          let size = Number(lines[i].split(" ")[0]);
+          let size = Number(lines[j].split(" ")[0]);
           pwd.size += size;
           while (parent) {
             parent.size += size;
@@ -42,7 +44,7 @@ const parseInput = (rawInput: string) => {
         }
       }
     }
-  });
+  }
   return directories;
 };
 
@@ -58,8 +60,7 @@ const part2 = (rawInput: string) => {
   const directorySizes = Object.values(directories)
     .map((directory) => directory.size)
     .sort((first, second) => first - second);
-  const freeSpace = 70000000 - directories["/"].size;
-  const neededSpace = 30000000 - freeSpace;
+  const neededSpace = directories["/"].size - 40000000;
   for (let i = 0; i < directorySizes.length; i++) {
     if (directorySizes[i] > neededSpace) return directorySizes[i];
   }
