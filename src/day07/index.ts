@@ -17,18 +17,19 @@ const parseInput = (rawInput: string) => {
   let pwd = directories["/"];
   rawInput.split("\n").forEach((line, idx, lines) => {
     if (line.startsWith("$ cd")) {
-      let dir = line.slice(5);
-      if (dir == "/") return;
-      pwd = dir == ".." ? pwd.parent : directories[`${pwd.path}${dir}`];
+      let directory = line.slice(5);
+      if (directory == "/") return;
+      pwd =
+        directory == ".." ? pwd.parent : directories[`${pwd.path}${directory}`];
     } else if (line.startsWith("$ ls")) {
       for (let i = idx + 1; i < lines.length; i++) {
         if (lines[i].startsWith("$")) break;
         if (lines[i].startsWith("dir")) {
-          let dir = lines[i].slice(4);
-          directories[`${pwd.path}${dir}`] ??= {
+          let directory = lines[i].slice(4);
+          directories[`${pwd.path}${directory}`] ??= {
             size: 0,
             parent: pwd,
-            path: `${pwd.path}${dir}`,
+            path: `${pwd.path}${directory}`,
           };
         } else {
           let parent = pwd.parent;
@@ -48,14 +49,14 @@ const parseInput = (rawInput: string) => {
 const part1 = (rawInput: string) => {
   const directories = parseInput(rawInput);
   return Object.values(directories)
-    .filter((dir) => dir.size <= 100000)
-    .reduce((acc, dir) => (acc += dir.size), 0);
+    .filter((directory) => directory.size <= 100000)
+    .reduce((acc, directory) => (acc += directory.size), 0);
 };
 
 const part2 = (rawInput: string) => {
   const directories = parseInput(rawInput);
   const directorySizes = Object.values(directories)
-    .map((dir) => dir.size)
+    .map((directory) => directory.size)
     .sort((first, second) => first - second);
   const freeSpace = 70000000 - directories["/"].size;
   const neededSpace = 30000000 - freeSpace;
