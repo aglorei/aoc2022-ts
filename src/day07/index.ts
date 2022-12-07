@@ -6,14 +6,13 @@ interface DirectoryDictionary {
 
 interface Directory {
   size: number;
-  directories: Directory[];
   parent: Directory;
   path: string;
 }
 
 const parseInput = (rawInput: string) => {
   let directories: DirectoryDictionary = {
-    "/": { size: 0, directories: [], parent: null, path: "/" },
+    "/": { size: 0, parent: null, path: "/" },
   };
   let pwd = directories["/"];
   rawInput.split("\n").forEach((line, idx, lines) => {
@@ -28,11 +27,9 @@ const parseInput = (rawInput: string) => {
           let dir = lines[i].slice(4);
           directories[`${pwd.path}${dir}`] ??= {
             size: 0,
-            directories: [],
             parent: pwd,
             path: `${pwd.path}${dir}`,
           };
-          pwd.directories.push(directories[`${pwd.path}${dir}`]);
         } else {
           let parent = pwd.parent;
           let size = Number(lines[i].split(" ")[0]);
