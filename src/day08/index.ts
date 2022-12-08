@@ -3,6 +3,15 @@ import run from "aocrunner";
 const parseInput = (rawInput: string) =>
   rawInput.split("\n").map((row) => row.split("").map(Number));
 
+const clearViewCount = (trees: number[], candidate: number) => {
+  let count = 0;
+  for (const tree of trees) {
+    count += 1;
+    if (tree >= candidate) break;
+  }
+  return count;
+};
+
 const part1 = (rawInput: string) => {
   const grid = parseInput(rawInput);
   let visibleTreesCount = grid.length * 2 + grid[0].length * 2 - 4;
@@ -32,42 +41,16 @@ const part2 = (rawInput: string) => {
     for (let x = 1; x < grid[y].length - 1; x++) {
       let candidate = grid[y][x];
 
-      // east edge visibility
-      const eastView = grid[y].slice(x + 1);
-      let east = 0;
-      for (let i = 0; i < eastView.length; i++) {
-        east += 1;
-        if (eastView[i] >= candidate) break;
-      }
+      const score = [
+        grid[y].slice(x + 1), // east edge visibility
+        grid[y].slice(0, x).reverse(), // west edge visibility
+        grid.slice(y + 1).map((row) => row[x]), // south edge visibility
+        grid
+          .slice(0, y)
+          .map((row) => row[x])
+          .reverse(), // north edge visibility
+      ].reduce((acc, trees) => (acc *= clearViewCount(trees, candidate)), 1);
 
-      // west edge visibility
-      const westView = grid[y].slice(0, x).reverse();
-      let west = 0;
-      for (let i = 0; i < westView.length; i++) {
-        west += 1;
-        if (westView[i] >= candidate) break;
-      }
-
-      // south edge visibility
-      const southView = grid.slice(y + 1).map((row) => row[x]);
-      let south = 0;
-      for (let i = 0; i < southView.length; i++) {
-        south += 1;
-        if (southView[i] >= candidate) break;
-      }
-
-      // north edge visibility
-      const northView = grid
-        .slice(0, y)
-        .map((row) => row[x])
-        .reverse();
-      let north = 0;
-      for (let i = 0; i < northView.length; i++) {
-        north += 1;
-        if (northView[i] >= candidate) break;
-      }
-
-      const score = east * west * south * north;
       if (score > maxScore) maxScore = score;
     }
   }
