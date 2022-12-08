@@ -54,7 +54,6 @@ const part2 = (rawInput: string) => {
       if (score > maxScore) maxScore = score;
     }
   }
-
   return maxScore;
 };
 
