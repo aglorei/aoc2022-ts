@@ -10,26 +10,12 @@ const part1 = (rawInput: string) => {
     for (let x = 1; x < grid[y].length - 1; x++) {
       let candidate = grid[y][x];
 
-      // east edge visibility
-      if (Math.max(...grid[y].slice(x + 1)) < candidate) {
-        visibleTreesCount++;
-        continue;
-      }
-
-      // west edge visibility
-      if (Math.max(...grid[y].slice(0, x)) < candidate) {
-        visibleTreesCount++;
-        continue;
-      }
-
-      // south edge visibility
-      if (Math.max(...grid.slice(y + 1).map((row) => row[x])) < candidate) {
-        visibleTreesCount++;
-        continue;
-      }
-
-      // north edge visibility
-      if (Math.max(...grid.slice(0, y).map((row) => row[x])) < candidate) {
+      if (
+        Math.max(...grid[y].slice(x + 1)) < candidate || // east edge visibility
+        Math.max(...grid[y].slice(0, x)) < candidate || // west edge visibility
+        Math.max(...grid.slice(y + 1).map((row) => row[x])) < candidate || // south edge visibility
+        Math.max(...grid.slice(0, y).map((row) => row[x])) < candidate // north edge visibility
+      ) {
         visibleTreesCount++;
         continue;
       }
