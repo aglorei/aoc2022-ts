@@ -10,49 +10,11 @@ const compass = {
   L: [-1, 0],
 };
 
-const followHead = (head: number[], tail: number[]) => {
-  const followVector = head.map((coord, idx) => coord - tail[idx]);
-  const stepsCount = followVector.map(Math.abs);
-
-  if (stepsCount.reduce((acc, step) => (acc += step), 0) == 3) {
-    const longIdx = stepsCount.indexOf(2);
-    followVector[1 - longIdx] += Math.sign(followVector[1 - longIdx]);
-  }
-
-  tail = tail.map(
-    (coord, idx) =>
-      Math.sign(followVector[idx]) * -1 + followVector[idx] + coord,
-  );
-
-  return tail;
-};
-
-const part1 = (rawInput: string) => {
-  const movements = parseInput(rawInput);
-
-  let head = [0, 0];
-  let tail = [0, 0];
-  const tailPositions = new Set(["0,0"]);
-
-  for (const movement of movements) {
-    const direction = movement[0];
-    let steps = Number(movement[1]);
-
-    while (steps) {
-      head = head.map((coord, idx) => compass[direction][idx] + coord);
-      steps--;
-      tail = followHead(head, tail);
-      tailPositions.add(tail.join(","));
-    }
-  }
-  return tailPositions.size;
-};
-
-const part2 = (rawInput: string) => {
-  const movements = parseInput(rawInput);
-
-  let head = [0, 0];
-  let tails = Array(9).fill([0, 0]);
+const tailPositionsCount = (
+  head: number[],
+  tails: number[][],
+  movements: string[],
+) => {
   const tailPositions = new Set(["0,0"]);
 
   for (const movement of movements) {
@@ -65,13 +27,41 @@ const part2 = (rawInput: string) => {
 
       let next = head;
       for (let i = 0; i < tails.length; i++) {
-        tails[i] = followHead(next, tails[i]);
+        tails[i] = articulateTail(next, tails[i]);
         next = tails[i];
       }
-      tailPositions.add(tails[8].join(","));
+      tailPositions.add(tails[tails.length - 1].join(","));
     }
   }
   return tailPositions.size;
+};
+
+const articulateTail = (head: number[], tail: number[]) => {
+  const followVector = head.map((coord, idx) => coord - tail[idx]);
+  const stepsCount = followVector.map(Math.abs);
+
+  if (stepsCount.reduce((acc, step) => (acc += step), 0) == 3) {
+    const longIdx = stepsCount.indexOf(2);
+    followVector[1 - longIdx] += Math.sign(followVector[1 - longIdx]);
+  }
+
+  tail = tail.map(
+    (coord, idx) => followVector[idx] - Math.sign(followVector[idx]) + coord,
+  );
+
+  return tail;
+};
+
+const part1 = (rawInput: string) => {
+  return tailPositionsCount([0, 0], [[0, 0]], parseInput(rawInput));
+};
+
+const part2 = (rawInput: string) => {
+  return tailPositionsCount(
+    [0, 0],
+    Array(9).fill([0, 0]),
+    parseInput(rawInput),
+  );
 };
 
 const testInputShort = `
