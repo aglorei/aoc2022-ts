@@ -12,10 +12,10 @@ const compass = {
 
 const articulateTail = (head: number[], tail: number[]) => {
   const followVector = head.map((coord, idx) => coord - tail[idx]);
-  const stepsCount = followVector.map(Math.abs);
+  const followVectorAbs = followVector.map(Math.abs);
 
-  if (stepsCount.reduce((acc, step) => (acc += step), 0) == 3) {
-    const longIdx = stepsCount.indexOf(2);
+  if (followVectorAbs.reduce((acc, step) => (acc += step), 0) == 3) {
+    const longIdx = followVectorAbs.indexOf(2);
     followVector[1 - longIdx] += Math.sign(followVector[1 - longIdx]);
   }
 
