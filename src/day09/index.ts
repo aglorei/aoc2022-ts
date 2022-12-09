@@ -10,6 +10,22 @@ const compass = {
   L: [-1, 0],
 };
 
+const articulateTail = (head: number[], tail: number[]) => {
+  const followVector = head.map((coord, idx) => coord - tail[idx]);
+  const stepsCount = followVector.map(Math.abs);
+
+  if (stepsCount.reduce((acc, step) => (acc += step), 0) == 3) {
+    const longIdx = stepsCount.indexOf(2);
+    followVector[1 - longIdx] += Math.sign(followVector[1 - longIdx]);
+  }
+
+  tail = tail.map(
+    (coord, idx) => followVector[idx] - Math.sign(followVector[idx]) + coord,
+  );
+
+  return tail;
+};
+
 const tailPositionsCount = (
   head: number[],
   tails: number[][],
@@ -34,22 +50,6 @@ const tailPositionsCount = (
     }
   }
   return tailPositions.size;
-};
-
-const articulateTail = (head: number[], tail: number[]) => {
-  const followVector = head.map((coord, idx) => coord - tail[idx]);
-  const stepsCount = followVector.map(Math.abs);
-
-  if (stepsCount.reduce((acc, step) => (acc += step), 0) == 3) {
-    const longIdx = stepsCount.indexOf(2);
-    followVector[1 - longIdx] += Math.sign(followVector[1 - longIdx]);
-  }
-
-  tail = tail.map(
-    (coord, idx) => followVector[idx] - Math.sign(followVector[idx]) + coord,
-  );
-
-  return tail;
 };
 
 const part1 = (rawInput: string) => {
