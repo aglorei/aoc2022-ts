@@ -1,7 +1,7 @@
 import run from "aocrunner";
 
 const parseInput = (rawInput: string) =>
-  rawInput.split("\n").map((motion) => motion.split(" "));
+  rawInput.split("\n").map((movement) => movement.split(" "));
 
 const compass = {
   U: [0, 1],
@@ -10,37 +10,38 @@ const compass = {
   L: [-1, 0],
 };
 
-const moveToHead = (head: number[], tail: number[]) => {
-  const moves = head.map((coord, idx) => coord - tail[idx]);
-  const absMoves = moves.map(Math.abs);
+const followHead = (head: number[], tail: number[]) => {
+  const followVector = head.map((coord, idx) => coord - tail[idx]);
+  const stepsCount = followVector.map(Math.abs);
 
-  if (absMoves.reduce((acc, step) => (acc += step), 0) == 3) {
-    const longIdx = absMoves.indexOf(2);
-    moves[1 - longIdx] += Math.sign(moves[1 - longIdx]);
+  if (stepsCount.reduce((acc, step) => (acc += step), 0) == 3) {
+    const longIdx = stepsCount.indexOf(2);
+    followVector[1 - longIdx] += Math.sign(followVector[1 - longIdx]);
   }
 
   tail = tail.map(
-    (coord, idx) => Math.sign(moves[idx]) * -1 + moves[idx] + coord,
+    (coord, idx) =>
+      Math.sign(followVector[idx]) * -1 + followVector[idx] + coord,
   );
 
   return tail;
 };
 
 const part1 = (rawInput: string) => {
-  const motions = parseInput(rawInput);
+  const movements = parseInput(rawInput);
 
   let head = [0, 0];
   let tail = [0, 0];
   const tailPositions = new Set(["0,0"]);
 
-  for (const motion of motions) {
-    const direction = motion[0];
-    let steps = Number(motion[1]);
+  for (const movement of movements) {
+    const direction = movement[0];
+    let steps = Number(movement[1]);
 
     while (steps) {
       head = head.map((coord, idx) => compass[direction][idx] + coord);
       steps--;
-      tail = moveToHead(head, tail);
+      tail = followHead(head, tail);
       tailPositions.add(tail.join(","));
     }
   }
@@ -48,15 +49,15 @@ const part1 = (rawInput: string) => {
 };
 
 const part2 = (rawInput: string) => {
-  const motions = parseInput(rawInput);
+  const movements = parseInput(rawInput);
 
   let head = [0, 0];
   let tails = Array(9).fill([0, 0]);
   const tailPositions = new Set(["0,0"]);
 
-  for (const motion of motions) {
-    const direction = motion[0];
-    let steps = Number(motion[1]);
+  for (const movement of movements) {
+    const direction = movement[0];
+    let steps = Number(movement[1]);
 
     while (steps) {
       head = head.map((coord, idx) => compass[direction][idx] + coord);
@@ -64,7 +65,7 @@ const part2 = (rawInput: string) => {
 
       let next = head;
       for (let i = 0; i < tails.length; i++) {
-        tails[i] = moveToHead(next, tails[i]);
+        tails[i] = followHead(next, tails[i]);
         next = tails[i];
       }
       tailPositions.add(tails[8].join(","));
