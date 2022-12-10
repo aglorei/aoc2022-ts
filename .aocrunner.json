@@ -120,27 +120,27 @@
         "solved": true,
         "result": "5619",
         "attempts": [],
-        "time": 26.431958
+        "time": 31.43025
       },
       "part2": {
         "solved": true,
         "result": "2376",
         "attempts": [],
-        "time": 16.952625
+        "time": 18.642667
       }
     },
     {
       "part1": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "12740",
         "attempts": [],
-        "time": null
+        "time": 0.070084
       },
       "part2": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "RBPARAGF",
         "attempts": [],
-        "time": null
+        "time": 0.089166
       }
     },
     {
