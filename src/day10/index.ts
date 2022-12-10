@@ -38,9 +38,9 @@ const part2 = (rawInput: string) => {
 
   for (const modifierStack of instructions) {
     while (modifierStack.length) {
-      if (Math.abs((cycle % 40) - register) < 2) {
+      const column = cycle % 40;
+      if (Math.abs(column - register) < 2) {
         const row = Math.floor(cycle / 40);
-        const column = cycle % 40;
         display[row][column] = "#";
       }
       cycle++;
