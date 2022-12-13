@@ -58,6 +58,7 @@ const getStartNodes = (rawInput: string) => {
   return startNodes;
 };
 
+// TODO: Correctly annontate type
 const bfsPathSteps = (startNode) => {
   const queue = [startNode];
   const inspected = [];
