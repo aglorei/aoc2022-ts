@@ -1,29 +1,5 @@
 import run from "aocrunner";
 
-// const growCave = (cave: Array<string>, xGap: number, yGap: number) => {
-//   if (xGap < 0) {
-//     cave = cave.map((line) =>
-//       Array.from({ length: Math.abs(xGap) }, (_) => ".").concat(line),
-//     );
-//   } else if (xGap > cave[0].length - 1) {
-//     cave = cave.map((line) =>
-//       line.concat(
-//         Array.from({ length: Math.abs(cave[0].length - 1 - xGap) }, (_) => "."),
-//       ),
-//     );
-//   }
-
-//   if (yGap) {
-//     cave = cave.concat(
-//       Array.from({ length: yGap }, (_) =>
-//         Array.from({ length: cave[0].length }, (_) => "."),
-//       ),
-//     );
-//   }
-
-//   return cave;
-// };
-
 const buildCave = (rawInput: string, withFloor: false) => {
   let cave = [["+"]];
 
@@ -32,9 +8,6 @@ const buildCave = (rawInput: string, withFloor: false) => {
     for (const idx in paths) {
       let [x2, y2] = paths[idx].split(",").map(Number);
       x2 -= 500;
-
-      // TODO: rid
-      // cave = growCave(cave, x2 + cave[0].indexOf("+"), y2 - cave.length + 1);
 
       const xGap = x2 + cave[0].indexOf("+");
       if (xGap < 0) {
